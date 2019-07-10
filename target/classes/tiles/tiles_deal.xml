@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="/transaction/dealList" extends="baseLayout">
+		<put-attribute name="title" value="거래내역" />
+		<put-attribute name="body" value="/WEB-INF/views/transaction/dealList.jsp" />
+	</definition>
+	
+		<definition name="/transaction/buyList" extends="baseLayout">
+		<put-attribute name="title" value="구매내역" />
+		<put-attribute name="body" value="/WEB-INF/views/transaction/buyList.jsp" />
+	</definition>
+	
+		<definition name="/transaction/sellList" extends="baseLayout">
+		<put-attribute name="title" value="판매내역" />
+		<put-attribute name="body" value="/WEB-INF/views/transaction/sellList.jsp" />
+	</definition>
+</tiles-definitions>

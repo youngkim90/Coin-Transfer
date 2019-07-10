@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.transaction">
+
+
+	<resultMap id="dealResult" type="transactionVO">
+		<result property="accountNO" column="accountNO" />
+		<result property="coinTitle" column="coinTitle" />
+		<result property="buyAmount" column="buyAmount" />
+		<result property="needMoney" column="needMoney" />
+		<result property="buyDate" column="buyDate" />
+		<result property="buyPrice" column="buyPrice" />
+		<result property="sellAmount" column="sellAmount" />
+		<result property="getMoney" column="getMoney" />
+		<result property="sellDate" column="sellDate" />
+		<result property="sellPrice" column="sellPrice" />
+	</resultMap>
+
+	<select id="selectBuyList" resultMap="dealResult">
+        <![CDATA[
+         select*from buy_list order by buyDate desc
+	    ]]>
+	</select>
+
+	<select id="selectSellList" resultMap="dealResult">
+        <![CDATA[
+         select*from sell_list order by sellDate desc
+	    ]]>
+	</select>
+
+</mapper>

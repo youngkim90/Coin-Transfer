@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="baseLayout" template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="title" value="코인거래" />
+		<put-attribute name="main" value="/WEB-INF/views/common/main.jsp" />
+		<put-attribute name="body" value="" />
+	</definition>
+
+	<definition name="/account/coinTransfer" extends="baseLayout">
+		<put-attribute name="title" value="코인거래 메인페이지" />
+		<put-attribute name="body" value="/WEB-INF/views/account/coinTransfer.jsp" />
+	</definition>
+
+	<definition name="/account/join" extends="baseLayout">
+		<put-attribute name="title" value="회원가입" />
+		<put-attribute name="body" value="/WEB-INF/views/account/join.jsp" />
+	</definition>
+
+	<definition name="/account/login" extends="baseLayout">
+		<put-attribute name="title" value="로그인" />
+		<put-attribute name="body" value="/WEB-INF/views/account/login.jsp" />
+	</definition>
+
+	<definition name="/account/newAccount" extends="baseLayout">
+		<put-attribute name="title" value="계좌생성" />
+		<put-attribute name="body" value="/WEB-INF/views/account/newAccount.jsp" />
+	</definition>
+
+	<definition name="/account/buyCoin" extends="baseLayout">
+		<put-attribute name="title" value="코인구입" />
+		<put-attribute name="body" value="/WEB-INF/views/account/buyCoin.jsp" />
+	</definition>
+
+	<definition name="/account/buyCoin2" extends="baseLayout">
+		<put-attribute name="title" value="코인구입2" />
+		<put-attribute name="body" value="/WEB-INF/views/account/buyCoin2.jsp" />
+	</definition>
+
+	<definition name="/account/mycoin" extends="baseLayout">
+		<put-attribute name="title" value="보유 코인" />
+		<put-attribute name="body" value="/WEB-INF/views/account/mycoin.jsp" />
+	</definition>
+
+	<definition name="/account/coinExchange" extends="baseLayout">
+		<put-attribute name="title" value="코인 환전" />
+		<put-attribute name="body" value="/WEB-INF/views/account/coinExchange.jsp" />
+	</definition>
+	
+		<definition name="/account/coinPrice" extends="baseLayout">
+		<put-attribute name="title" value="코인 시세" />
+		<put-attribute name="body" value="/WEB-INF/views/account/coinPrice.jsp" />
+	</definition>
+
+</tiles-definitions>
+
+

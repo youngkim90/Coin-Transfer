@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.account">
+
+
+	<resultMap id="coinResult" type="coininfoVO">
+		<result property="coinNum" column="coinNum" />
+		<result property="coinName" column="coinName" />
+		<result property="coinPrice" column="coinPrice" />
+		<result property="coinTitle" column="coinTitle" />
+		<result property="coinQuantity" column="coinQuantity" />
+	</resultMap>
+
+	<resultMap id="accountResult" type="accountVO">
+		<result property="accountNO1" column="accountNO1" />
+		<result property="accountNO2" column="accountNO2" />
+		<result property="accountNO3" column="accountNO3" />
+		<result property="accountPW" column="accountPW" />
+		<result property="custName" column="custName" />
+		<result property="balance" column="balance" />
+		<result property="joinDate" column="joinDate" />
+
+		<result property="cust_id" column="cust_id" />
+		<result property="cust_pw" column="cust_pw" />
+		<result property="cust_pw2" column="cust_pw2" />
+
+		<result property="cust_gender" column="cust_gender" />
+		<result property="cust_birth_y" column="cust_birth_y" />
+		<result property="cust_birth_m" column="cust_birth_m" />
+		<result property="cust_birth_d" column="cust_birth_d" />
+		<result property="cust_birth_gn" column="cust_birth_gn" />
+
+		<result property="hp1" column="hp1" />
+		<result property="hp2" column="hp2" />
+		<result property="hp3" column="hp3" />
+	</resultMap>
+
+	<select id="selectOverlappedID" parameterType="String" resultType="String">
+		select decode(count(*),1, 'true', 0, 'false')
+		from cust_account
+		where cust_id = #{id}
+	</select>
+
+
+
+	<update id="updateBalance1" parameterType="int">
+      <![CDATA[
+         update cust_account
+         set balance=balance+#{money}
+         where
+           accountNo = '12-345-678'
+       ]]>
+	</update>
+
+	<update id="updateBalance2" parameterType="int">
+      <![CDATA[
+         update cust_account
+         set balance=balance-#{money}
+         where
+          accountNo ='12-345-679'
+       ]]>
+	</update>
+
+	<select id="selectCoinList" resultMap="coinResult">
+        <![CDATA[
+         select*from coin_info order by coinNum asc
+	    ]]>
+	</select>
+
+	<select id="selectOverlapped" parameterType="String" resultType="String">
+		select decode(count(*), 0, 'false','true')
+		from cust_coin
+		where accountNO3 = #{accountNO3}
+	</select>
+
+
+	<select id="myCoinList" parameterType="int" resultMap="coinResult">
+        <![CDATA[
+         select c.coinQuantity,i.* from cust_coin c, coin_info i 
+         where c.coinTitle=i.coinTitle and
+         		  c.accountNO3=#{im}  
+         		  order by i.coinNum asc
+	    ]]>
+	</select>
+
+	<update id="updateCoin1" parameterType="hashmap">
+
+	      <![CDATA[
+         update cust_account 
+         set  balance=balance+(#{coinamount}*#{coinPrice}) 
+         where accountNO3=#{accountNO3}
+         
+       ]]>
+
+	</update>
+
+	<update id="updateCoin2" parameterType="hashmap">
+
+	      <![CDATA[
+         update cust_coin 
+			set coinQuantity=coinQuantity-#{coinamount} 
+
+         where accountNO3=#{accountNO3} and coinTitle=#{coinTitle}
+       ]]>
+
+	</update>
+
+
+	<insert id="insertCoin" parameterType="hashmap">
+  	<![CDATA[
+    	insert into sell_list(accountno3,cointitle,sellamount,getmoney,sellprice) values(#{accountNO3},#{coinTitle},#{coinamount},(#{coinPrice}*#{coinamount}),#{coinPrice})
+				 		
+   ]]>
+	</insert>
+
+
+	<insert id="insertCustInfo" parameterType="hashmap">
+  <![CDATA[
+    	insert into cust_account(
+				 					 custName,
+                                     cust_id,
+                                     cust_pw,
+                                     cust_pw2,
+                                     cust_gender,
+                                     cust_birth_y,
+                                     cust_birth_m,
+                                     cust_birth_d,
+                                     cust_birth_gn,
+                                     hp1,
+                                     hp2,
+                                     hp3
+                                 ) 
+							 values(
+									#{custName},
+                                   	#{cust_id},
+                                   	#{cust_pw},
+                                   	#{cust_pw2},
+                                   	#{cust_gender},
+                                   	#{cust_birth_y},
+                                   	#{cust_birth_m},
+                                   	#{cust_birth_d},
+                                   	#{cust_birth_gn},
+                                   	#{hp1},
+                                   	#{hp2},
+                                   	#{hp3})       
+   ]]>
+	</insert>
+
+	<select id="selectCustInfo" resultMap="accountResult" parameterType="hashmap">
+        <![CDATA[
+         select*from cust_account where cust_id=#{cust_id} and cust_pw=#{cust_pw}
+	    ]]>
+	</select>
+
+	<select id="selectAccNo" resultType="int">
+        <![CDATA[
+         SELECT accountNO3 FROM cust_account WHERE accountNO3 = (SELECT max(accountNO3) FROM cust_account)
+	    ]]>
+	</select>
+
+	<update id="updateNewAcc" parameterType="hashmap">
+
+	      <![CDATA[
+	      
+			update cust_account 
+			set balance=0, accountNO1=#{accountNO1}, accountNO2=#{accountNO2}, accountNO3=#{accountNO3}, accountPW=#{accountPW} 
+			where cust_id=#{cust_id}
+
+       ]]>
+	</update>
+
+	<select id="coinOverlapped" parameterType="hashmap" resultType="String">
+		select decode(count(*), 0, 'false','true')
+		from cust_coin
+		where accountNO3 = #{accountNO3} and coinTitle=#{coinTitle}
+	</select>
+
+
+	<insert id="insertBuyInfo" parameterType="hashmap">
+  	<![CDATA[
+    	insert into cust_coin(cointitle,accountno3,coinquantity,custname) values(#{coinTitle},#{accountNO3},#{buyamount},#{custName})
+				 		
+   ]]>
+	</insert>
+
+	<insert id="insertBuyList" parameterType="hashmap">
+  	<![CDATA[
+    	insert into buy_list(accountno3,cointitle,buyamount,needmoney,buyprice) values(#{accountNO3},#{coinTitle},#{buyamount},(#{coinPrice}*#{buyamount}),#{coinPrice})
+				 		
+   ]]>
+	</insert>
+
+	<update id="updateBuyInfo" parameterType="hashmap">
+
+	      <![CDATA[
+	      
+			update cust_coin 
+			set coinQuantity=coinQuantity+#{buyamount}
+			where coinTitle=#{coinTitle} and accountNO3=#{accountNO3}
+
+       ]]>
+	</update>
+	
+		<update id="updateAccNO" parameterType="hashmap">
+
+	      <![CDATA[
+	      
+			update cust_account 
+			set balance=balance-(#{coinPrice}*#{buyamount})
+			where custName=#{custName} and accountNO3=#{accountNO3}
+       ]]>
+	</update>
+
+</mapper>
